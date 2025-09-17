@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso - Academia AutoPrime</title>
+    <style>
+        /* Estilos CSS mantidos conforme o código original */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #1a1413; color: #FFFFFF; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 1200px; display: none; flex-direction: column; align-items: center; padding: 20px; box-sizing: border-box; } /* Added box-sizing */
+        .login-container { width: 100%; max-width: 400px; background-color: #282828; padding: 40px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); text-align: center; }
+        .login-logo { max-width: 200px; margin-bottom: 25px; }
+        .login-container h2 { color: #f95d00; font-size: 2em; margin-bottom: 20px; }
+        .login-input-group { margin-bottom: 20px; text-align: left; }
+        .login-input-group label { display: block; margin-bottom: 8px; color: #ccc; font-size: 0.9em; }
+        .login-input-group input { width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background-color: #1a1413; color: #FFFFFF; font-size: 1em; box-sizing: border-box; }
+        .login-button { width: 100%; padding: 15px; background-color: #f95d00; color: #FFFFFF; border: none; border-radius: 8px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease; }
+        .login-button:hover { background-color: #e65200; } /* Slightly darker hover */
+        #login-error-message { color: #f95d00; margin-top: 15px; font-weight: bold; }
+        .logo-container { text-align: center; margin-bottom: 30px; }
+        .logo { max-width: 280px; height: auto; }
+        h1 { color: #f95d00; text-align: center; font-size: 2.8em; margin-bottom: 30px; font-weight: 700; text-transform: uppercase; }
+        .flow-container { display: flex; flex-direction: column; gap: 25px; width: 100%; background-color: #1a1413; padding: 20px 0; }
+        .stage { background-color: #FFFFFF; border: 1px solid #333; border-radius: 12px; padding: 30px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); position: relative; color: #282828; } /* Added color to stage for better readability */
+        .stage-title { background-color: #f95d00; color: #ffffff; padding: 18px; border-radius: 10px; text-align: center; font-size: 1.6em; font-weight: 600; margin: -50px auto 25px auto; width: 70%; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3); text-transform: uppercase; }
+        .steps-list { list-style-type: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px; }
+        .step { background-color: #282828; border-left: 5px solid #f95d00; padding: 18px; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; color: #FFFFFF; }
+        .step:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); }
+        .step-header { font-weight: bold; color: #f95d00; font-size: 1.2em; margin-bottom: 8px; }
+        .sub-step-list { list-style-type: none; margin: 10px 0 0 25px; padding: 0; color: #CCCCCC; }
+        .sub-step { margin-bottom: 10px; font-size: 0.98em; line-height: 1.5; color: #CCCCCC; }
+        .sub-step strong { color: #FFFFFF; }
+        .nested-sub-step-list { list-style-type: circle; margin: 8px 0 0 20px; color: #BBBBBB; }
+        .note { background-color: #282828; border-left: 5px solid #f95d00; padding: 20px; border-radius: 8px; margin-top: 30px; color: #FFFFFF; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); }
+        .note-title { font-weight: bold; color: #f95d00; margin-bottom: 10px; font-size: 1.2em; }
+        .arrow { text-align: center; margin: 25px 0; font-size: 3.5em; color: #f95d00; text-shadow: 0 0 10px rgba(233, 79, 53, 0.5); }
+
+        /* New styles for POP content */
+        #pop-container {
+            width: 100%;
+            max-width: 1200px;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .pop-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .pop-header h1 {
+            font-size: 2.5em;
+            color: #f95d00;
+            margin-bottom: 10px;
+        }
+        .pop-header h2 {
+            font-size: 1.5em;
+            color: #ccc;
+        }
+
+        .pop-content-card {
+            background-color: #282828; /* Dark background for content */
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+            color: #FFFFFF; /* White text for content */
+        }
+        .pop-content-card h2 {
+            color: #f95d00;
+            font-size: 1.8em;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+        }
+        .pop-content-card h3 {
+            color: #f95d00;
+            font-size: 1.4em;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        .pop-content-card p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #CCCCCC;
+        }
+        .pop-content-card ul, .pop-content-card ol {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            color: #CCCCCC;
+        }
+        .pop-content-card ul li, .pop-content-card ol li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .pop-content-card strong {
+            color: #f95d00;
+        }
+
+        .pop-navigation-bar {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .pop-navigation-bar button {
+            padding: 12px 25px;
+            background-color: #f95d00;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .pop-navigation-bar button:hover:not(:disabled) {
+            background-color: #e65200;
+        }
+        .pop-navigation-bar button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .pop-navigation-bar span {
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+            color: #f95d00;
+            font-weight: bold;
+        }
+        .pop-page {
+            display: none; /* All pages hidden by default, JS will show current */
+        }
+        .pop-page.active {
+            display: block;
+        }
+
+        .pop-return-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #444;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .pop-return-button:hover {
+            background-color: #555;
+        }
+
+        .consult-pop-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #f95d00;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .consult-pop-button:hover {
+            background-color: #e65200;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container, #pop-container {
+                padding: 10px;
+            }
+            .login-container {
+                padding: 30px;
+            }
+            .login-container h2 {
+                font-size: 1.5em;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .stage-title {
+                font-size: 1.3em;
+                width: 90%;
+                padding: 15px;
+            }
+            .stage {
+                padding: 20px;
+            }
+            .step {
+                padding: 15px;
+            }
+            .pop-content-card {
+                padding: 20px;
+            }
+            .pop-header h1 {
+                font-size: 2em;
+            }
+            .pop-header h2 {
+                font-size: 1.2em;
+            }
+            .pop-navigation-bar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            .pop-navigation-bar button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="login-form-container">
+        <div class="logo-container">
+            <img src="Rede Auto Prime II.png" alt="Logo Academia AutoPrime" class="login-logo">
+        </div>
+        <h2>BPM POP's AutoPrime Acesso Restrito</h2>
+        <div class="login-input-group">
+            <label for="username">Usuário</label>
+            <input type="text" id="username" name="username" placeholder="Digite seu usuário">
+        </div>
+        <div class="login-input-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" placeholder="Digite sua senha">
+        </div>
+        <button id="login-button" class="login-button">Entrar</button>
+        <p id="login-error-message"></p>
+    </div>
+
+    <div class="container" id="main-content">
+        <div class="logo-container">
+            <img src="Rede Auto Prime II.png" alt="Logo Academia AutoPrime" class="logo">
+        </div>
+        <h1>Fluxograma de Implementação Detalhado do POP</h1>
+        
+        <div class="flow-container">
+            <div class="stage">
+                <div class="stage-title">FASE 1: FUNDAÇÃO (Onde você começa)</div>
+                <ul class="steps-list">
+                    <li class="step">
+                        <div class="step-header">Passo 1: A Reunião de Alinhamento e Compromisso (POP 1)</div>
+                        <ul class="sub-step-list">
+                            <li class="sub-step"><strong>1.1. Agendamento da Reunião.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li>Marque uma reunião com toda a equipe de atendimento e consultores. Não chame de "reunião para discutir problemas", mas sim de "reunião para o próximo nível da empresa".</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>1.2. Apresentação do POP como Solução.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li>Mostre o POP. Destaque que ele não é um novo "controle", mas um guia para acabar com a bagunça, as ligações excessivas e a falta de rotina. Relacione cada problema que você listou com uma parte do POP que o resolve.</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>1.3. Compromisso Mútuo.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li>Conclua a reunião com um compromisso: você, como gestor, se compromete a dar as ferramentas e o apoio; a equipe se compromete a seguir a nova rotina.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="step">
+                        <div class="step-header">Passo 2: Treinamento Inicial Focado em Rotina (POP 6.1.1 a 6.1.5)</div>
+                        <ul class="sub-step-list">
+                            <li class="sub-step"><strong>2.1. Organização do Posto de Trabalho.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Ensine a rotina diária (07:30 - 08:00). Balcão limpo e organizado. Computador/tablet ligado e sistema de gestão aberto. Revisão da agenda do dia.</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>2.2. Abordagem e Coleta de Dados.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Treine a saudação padrão. Explique a importância de identificar a demanda (seguro ou particular) para o fluxo correto. Pratique a coleta de documentos e o registro preliminar de forma ágil e cortês.</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>2.3. Criação do Rascunho da Demanda.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Ensine a criar um rascunho detalhado das necessidades do cliente. Use um formulário físico ou digital para não esquecer de nada. Destaque a importância do relato do acidente para demandas de seguro.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <div class="stage">
+                <div class="stage-title">FASE 2: MÃO NA MASSA (As primeiras rotinas)</div>
+                <ul class="steps-list">
+                    <li class="step">
+                        <div class="step-header">Passo 3: Ordem de Serviço com Data e Check-list Minucioso (POP 6.2)</div>
+                        <ul class="sub-step-list">
+                            <li class="sub-step"><strong>3.1. Implementação do Check-list.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Forneça uma ferramenta para o check-list (tablet ou formulário físico). Treine o consultor a ser minucioso, registrando todas as avarias e o estado geral do veículo.</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>3.2. Preenchimento da Ordem de Serviço com Data.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Torne o campo "Data de Entrega Prevista" um requisito obrigatório na OS. Ensine o consultor a, junto com o supervisor de produção, definir uma data realista e comunicá-la ao cliente.</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>3.3. Proteção e Preparação do Veículo.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Ensine a rotina de proteção do veículo (capas de banco, volante, câmbio, tapetes) imediatamente após o check-list.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="step">
+                        <div class="step-header">Passo 4: Comunicação Proativa e Centralizada (POP 6.3)</div>
+                        <ul class="sub-step-list">
+                            <li class="sub-step"><strong>4.1. Centralização da Comunicação.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Deixe claro para os consultores que eles são o **ponto único de contato** do cliente e do corretor. Ninguém mais da oficina deve dar informações sobre o andamento do serviço.</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>4.2. Gestão da Expectativa do Cliente.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Crie um roteiro. Oriente o consultor a dizer: "Você não precisa ligar, nós vamos te manter informado com mensagens periódicas sobre o status do seu carro."</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>4.3. Rotina de Alinhamento Diário.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Implemente a reunião matinal diária (POP 6.3.4) entre o consultor e o supervisor de produção. Definam um horário fixo. Discutam o status dos carros com prazo de entrega para os próximos 10 dias.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="stage">
+                <div class="stage-title">FASE 3: TECNOLOGIA E VENDAS (Resolvendo o resto)</div>
+                <ul class="steps-list">
+                    <li class="step">
+                        <div class="step-header">Passo 5: Digitalização e Vendas Agregadas (POP 6.2.4)</div>
+                        <ul class="sub-step-list">
+                            <li class="sub-step"><strong>5.1. Implementação da Digitalização.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Estabeleça um procedimento: "Todo orçamento particular deve ser digitalizado após a elaboração e anexado ao cadastro do cliente no sistema."</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>5.2. Treinamento em Venda Consultiva.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Use o check-list de entrada para identificar oportunidades (ex: farol opaco, arranhões em outra peça). Treine o consultor a apresentar o "Cardápio de Serviços" e a fazer a oferta em dois momentos-chave: **durante o check-list e na liberação do seguro.**</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>5.3. Rotina de "Repescagem" de Orçamentos.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Crie um processo: Se o orçamento não for aprovado, ele deve ser imediatamente transferido para uma rotina de repescagem.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <div class="stage">
+                <div class="stage-title">FASE 4: SUSTENTABILIDADE E MELHORIA CONTÍNUA</div>
+                <ul class="steps-list">
+                    <li class="step">
+                        <div class="step-header">Passo 6: Acompanhamento e Revisão (POP 9)</div>
+                        <ul class="sub-step-list">
+                            <li class="sub-step"><strong>6.1. Monitoramento Diário.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Verifique diariamente se o check-list está sendo usado e se a comunicação proativa está sendo enviada. Faça perguntas de acompanhamento aos consultores: "Qual a data de entrega deste carro? O cliente já foi informado?".</li>
+                                </ul>
+                            </li>
+                            <li class="sub-step"><strong>6.2. Análise de Métricas.</strong>
+                                <ul class="nested-sub-step-list">
+                                    <li><strong>O que fazer:</strong> Use os dados do seu sistema. Monitore o número de vendas agregadas, o número de ligações recebidas por cliente e o tempo médio de reparo.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">Observação Importante:</div>
+                <p>Este fluxograma é um **mapa de prioridades**. Não tente implementar tudo de uma vez. Comece pelo topo, passo a passo. O sucesso do POP depende da disciplina de seguir a ordem e do comprometimento da sua equipe em transformar a rotina caótica em um processo de excelência.</p>
+            </div>
+
+            <!-- Novo botão para consultar o POP completo -->
+            <button id="consult-pop-button" class="consult-pop-button">Consulte o POP</button>
+
+        </div>
+    </div>
+    
+    <!-- Novo Container para o POP -->
+    <div class="container" id="pop-container">
+        <div class="logo-container">
+            <img src="Rede Auto Prime II.png" alt="Logo Academia AutoPrime" class="logo">
+        </div>
+        <div class="pop-header">
+            <h1>Procedimento Operacional Padrão</h1>
+            <h2>Consultor(a) Técnico(a) - Funilaria e Pintura</h2>
+        </div>
+
+        <!-- POP Pages go here -->
+        <div class="pop-page active" id="pop-page-1">
+            <div class="pop-content-card">
+                <h2>CÓDIGO: POP-ATEND-CONTEC-001</h2>
+                <p>VERSÃO: 1.0 (NOTA DEZ)</p>
+                <p>DATA DE EMISSÃO: 02 de Setembro de 2025</p>
+                <p>DATA DA PRÓXIMA REVISÃO PROGRAMADA: 02 de Setembro de 2026</p>
+                <p>ELABORADO POR: [Nome/Cargo do Elaborador]</p>
+                <p>APROVADO POR: [Nome/Cargo do Aprovador - Ex: Gerente de Atendimento / Diretor Comercial]</p>
+                
+                <h2>1. OBJETIVO GERAL E FILOSOFIA</h2>
+                <p>Este POP estabelece as diretrizes de excelência para o(a) Consultor(a) Técnico(a) da oficina de funilaria e pintura da [NOME DA EMPRESA]. Ele visa padronizar as interações com o cliente, garantindo o mais alto nível de satisfação em toda a sua jornada de experiência, desde a primeira abordagem até a entrega final. Nosso propósito é assegurar a oferta e comercialização consultiva de todos os produtos e serviços da empresa, com ética, transparência e foco no valor percebido pelo cliente.</p>
+                <p>Este guia detalhado busca capacitar o Consultor Técnico a:</p>
+                <ul>
+                    <li><strong>Maximizar a Satisfação do Cliente:</strong> Ser o principal responsável pela percepção positiva do cliente sobre a empresa. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Otimizar Vendas Consultivas:</strong> Identificar e oferecer soluções completas que atendam às necessidades do cliente, incluindo serviços agregados.</li>
+                    <li><strong>Garantir a Comunicação Transparente:</strong> Atuar como o ponto central de comunicação, mantendo o cliente sempre informado e minimizando dúvidas e ansiedades.</li>
+                    <li><strong>Assegurar a Qualidade no Processo:</strong> Realizar procedimentos de entrada e entrega do veículo com máxima atenção aos detalhes e segurança.</li>
+                    <li><strong>Fomentar a Proatividade:</strong> Antecipar necessidades e problemas, transformando desafios em oportunidades de fortalecer o relacionamento com o cliente.</li>
+                </ul>
+
+                <h2>2. CAMPO DE APLICAÇÃO</h2>
+                <p>Este POP é de aplicação compulsória para todo(a) Consultor(a) Técnico(a) da oficina de funilaria e pintura da [NOME DA EMPRESA]. Ele abrange todas as fases da jornada do cliente, desde a recepção, orçamentação, acompanhamento do serviço até a entrega técnica, e se aplica especificamente ao setor de Atendimento e Vendas. Referência: POP 09 Consultor Tec. v04.docx, Campo de aplicação</p>
+            </div>
+        </div>
+
+        <div class="pop-page" id="pop-page-2">
+            <div class="pop-content-card">
+                <h2>3. RESPONSABILIDADES CHAVE E ALÇADA DE DECISÃO</h2>
+                <h3>Consultor(a) Técnico(a):</h3>
+                <ul>
+                    <li><strong>Execução:</strong> Aplicar integralmente este POP e todos os POPs relacionados ao atendimento, vendas e procedimentos de veículo.</li>
+                    <li><strong>Liderança de Atendimento:</strong> Ser o principal ponto de contato e comunicação do cliente com a oficina, centralizando todas as informações. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Vendas Consultivas:</strong> Identificar oportunidades e oferecer o portfólio completo de produtos e serviços da empresa.</li>
+                    <li><strong>Gestão de Expectativas:</strong> Assegurar que o cliente tenha conhecimento claro sobre o processo, prazos e escopo dos serviços.</li>
+                    <li><strong>Qualidade do Processo:</strong> Executar check-lists minuciosos e entregas técnicas impecáveis.</li>
+                    <li><strong>Resolução de Problemas:</strong> Atuar na primeira linha de resolução de dúvidas e pequenos impasses do cliente.</li>
+                    <li><strong>Alçada de Decisão:</strong> Inclui a coleta de dados de clientes, realização de rascunhos de orçamento, impressão e apresentação de orçamentos, realização de check-lists, solicitação de cópias de documentos, e condução de negociações dentro das políticas de preços e descontos da empresa. Para decisões que envolvam prazos de produção complexos, custos adicionais fora da política ou impasses com seguradoras, deve consultar o Orçamentista de seguros, Supervisor de Produção ou a Gerência.</li>
+                </ul>
+                <h3>Gerência de Atendimento/Comercial:</h3>
+                <ul>
+                    <li>Fornecer os recursos necessários, apoiar a implementação, fiscalizar a aderência e revisar periodicamente este POP e os resultados do Consultor.</li>
+                </ul>
+                <h3>Outros Setores (Produção, Peças, Financeiro):</h3>
+                <ul>
+                    <li>Colaborar com o Consultor Técnico, fornecendo informações precisas e no tempo certo para garantir a satisfação do cliente.</li>
+                </ul>
+
+                <h2>4. RECURSOS E FERRAMENTAS ESSENCIAIS</h2>
+                <ul>
+                    <li><strong>Ferramenta para Check-list de Entrada e Entrega:</strong> Digital (tablet/sistema) ou física (formulário). Referência: POP 09 Consultor Tec. v04.docx, Materiais e equipamentos</li>
+                    <li><strong>Sistema para Cadastros de Clientes e Orçamentos:</strong> Software de gestão da oficina. Referência: POP 09 Consultor Tec. v04.docx, Materiais e equipamentos</li>
+                    <li><strong>Cardápio de Serviços:</strong> Material visual e informativo sobre os produtos e serviços da empresa. Referência: POP 09 Consultor Tec. v04.docx, Materiais e equipamentos</li>
+                    <li><strong>Materiais de Proteção do Veículo:</strong> Capas para bancos, volante, câmbio, tapetes, protetores externos. Referência: POP 09 Consultor Tec. v04.docx, Materiais e equipamentos</li>
+                    <li><strong>Ferramenta para Atualização da Situação dos Veículos:</strong> Módulo do sistema de gestão ou aplicativo de comunicação. Referência: POP 09 Consultor Tec. v04.docx, Materiais e equipamentos</li>
+                    <li><strong>Impressora e Câmera/Scanner:</strong> Para cópias de documentos e registro de avarias.</li>
+                    <li><strong>Celular Corporativo/WhatsApp:</strong> Para comunicação com clientes e envio de documentos.</li>
+                </ul>
+
+                <h2>5. DEFINIÇÕES</h2>
+                <ul>
+                    <li><strong>Satisfação do Consumidor:</strong> O nível de contentamento do cliente com os serviços e atendimento recebidos, medido pela sua percepção geral da experiência. Referência: POP 09 Consultor Tec. v04.docx, Objetivo</li>
+                    <li><strong>Comercialização Consultiva:</strong> Venda de produtos e serviços baseada na identificação das necessidades do cliente e na oferta de soluções que agreguem valor real, e não apenas na venda pura e simples. Referência: POP 09 Consultor Tec. v04.docx, Objetivo</li>
+                    <li><strong>Jornada de Experiência:</strong> O conjunto de interações e etapas que o cliente percorre desde o primeiro contato até a entrega final do veículo e o pós-venda. Referência: POP 09 Consultor Tec. v04.docx, Objetivo</li>
+                    <li><strong>Demanda Particular:</strong> Serviços solicitados e pagos diretamente pelo cliente, sem envolvimento de seguradora. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Demanda de Seguro:</strong> Serviços cobertos por apólice de seguro, com envolvimento de seguradora. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Rascunho da Demanda:</strong> Registro preliminar e informal das necessidades do cliente. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Serviços Agregados:</strong> Serviços adicionais não cobertos pelo sinistro (em casos de seguro) ou não diretamente relacionados ao reparo principal, que complementam a oferta e podem ser vendidos ao cliente. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Repescagem:</strong> Processo de renegociação ou acompanhamento de orçamentos que não foram aprovados inicialmente. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Entrega Técnica:</strong> Procedimento de entrega do veículo ao cliente que visa demonstrar a qualidade do serviço executado e assegurar a percepção de cuidado e garantia. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>NPS (Net Promoter Score):</strong> Ferramenta de pesquisa para medir a satisfação e lealdade do cliente (indicador de performance).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pop-page" id="pop-page-3">
+            <div class="pop-content-card">
+                <h2>6. PROCEDIMENTO OPERACIONAL DETALHADO - CICLO DE ATENDIMENTO DO CONSULTOR TÉCNICO</h2>
+                <p>Este ciclo de atendimento garante que o Consultor Técnico atue de forma acolhedora, consultiva e eficiente em todas as etapas da jornada do cliente.</p>
+
+                <h3>6.1. FASE 1: RECEPÇÃO E IDENTIFICAÇÃO DA DEMANDA (INÍCIO DA JORNADA)</h3>
+                <h4>6.1.1. Preparação Diária (07:30 - 08:00):</h4>
+                <ul>
+                    <li><strong>Organização do Posto de Trabalho:</strong> Assegurar que o balcão de atendimento e a área de recepção de veículos estejam organizados e limpos.</li>
+                    <li><strong>Acesso a Sistemas:</strong> Iniciar o computador/tablet e acessar o sistema de gestão da oficina.</li>
+                    <li><strong>Revisão de Agendamentos:</strong> Verificar a agenda do dia para clientes agendados e veículos previstos para entrada.</li>
+                </ul>
+
+                <h4>6.1.2. Abordagem e Atendimento Inicial:</h4>
+                <ul>
+                    <li><strong>Saudação Padrão:</strong> Abordar todos os clientes que chegam à empresa com cordialidade e profissionalismo, seguindo o padrão de abordagem estabelecido.</li>
+                    <li><strong>Porquê:</strong> O Consultor Técnico é um dos maiores responsáveis pela percepção positiva do cliente sobre a empresa. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.1.3. Identificação da Demanda Principal:</h4>
+                <ul>
+                    <li><strong>Classificação:</strong> Primordialmente, identificar se a demanda do cliente é de seguro ou particular.</li>
+                    <li><strong>Porquê:</strong> Define o fluxo subsequente de documentos e procedimentos. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.1.4. Procedimentos para Demandas Particulares:</h4>
+                <ul>
+                    <li><strong>Coleta de Documentos:</strong> Solicitar a CNH do cliente.</li>
+                    <li><strong>Registro Preliminar:</strong> Realizar uma cópia da CNH para um breve cadastro do cliente no sistema.</li>
+                    <li><strong>Contato:</strong> Obter um número de telefone para contato.</li>
+                    <li><strong>Rascunho da Demanda:</strong> Realizar um rascunho detalhado da demanda do consumidor utilizando o formulário específico, tablet ou a ferramenta de registro da empresa.</li>
+                    <li><strong>Porquê:</strong> Assegurar que todas as solicitações do cliente sejam capturadas para a elaboração precisa do orçamento. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.1.5. Procedimentos para Demandas de Seguro:</h4>
+                <ul>
+                    <li><strong>Coleta de Documentos:</strong> Solicitar a CNH do cliente e o documento do veículo.</li>
+                    <li><strong>Registro Preliminar:</strong> Realizar cópia de ambos os documentos para um breve cadastro, juntamente com as demais informações solicitadas no padrão de cadastro da empresa.</li>
+                    <li><strong>Relato do Acidente:</strong> Coletar o relato completo do cliente sobre o acidente. Este relato deve ser rico em detalhes, pois é fundamental para respaldar o processo orçamentário.</li>
+                    <li><strong>Registro do Relato:</strong> Registrar este relato junto ao cadastro do cliente no sistema da empresa.</li>
+                    <li><strong>Porquê:</strong> A riqueza de detalhes do relato é crucial para a precisão do orçamento e a comunicação com a seguradora. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pop-page" id="pop-page-4">
+            <div class="pop-content-card">
+                <h2>6.2. FASE 2: ORÇAMENTAÇÃO E CHECK-LIST DE ENTRADA</h2>
+
+                <h4>6.2.1. Elaboração do Orçamento:</h4>
+                <ul>
+                    <li><strong>Digitação no Sistema:</strong> Após o rascunho da demanda, digitar o orçamento completo no sistema da empresa ou ferramenta específica para registro e emissão.</li>
+                    <li><strong>Impressão:</strong> Imprimir o orçamento para apresentação ao cliente.</li>
+                    <li><strong>Política de Preços:</strong> Respeitar obrigatoriamente as políticas de preços e descontos estabelecidos pela empresa.</li>
+                    <li><strong>Porquê:</strong> Manter a consistência comercial e a rentabilidade. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.2.2. Execução do Check-list de Entrada do Veículo:</h4>
+                <ul>
+                    <li><strong>Minuciosidade:</strong> Realizar um check-list minucioso do veículo, utilizando a ferramenta estipulada pela empresa (digital ou física).</li>
+                    <li><strong>Presença do Cliente:</strong> Sempre que possível, realizar o check-list na presença do cliente, apontando avarias e o estado geral do veículo.</li>
+                    <li><strong>Coleta de Assinatura:</strong> Após o término do check-list, coletar a assinatura do cliente no documento.</li>
+                    <li><strong>Alternativa para Ausência do Cliente:</strong> Se o cliente não puder esperar ou não estiver presente, enviar uma cópia do check-list (com fotos e vídeos se aplicável) via WhatsApp e para o e-mail do cliente, solicitando seu conhecimento e aprovação digital sobre o documento.</li>
+                    <li><strong>Porquê:</strong> Proteger a empresa contra futuras contestações sobre avarias preexistentes e assegurar a transparência com o cliente. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.2.3. Preparação do Veículo para Produção:</h4>
+                <ul>
+                    <li><strong>Proteção Interna:</strong> Ao dar entrada do veículo em serviço, instalar os itens de proteção do interior do automóvel (capas de banco, volante, câmbio, tapetes).</li>
+                    <li><strong>Proteção Externa (se aplicável):</strong> Caso o veículo seja deslocado pelo Consultor Técnico ao ambiente de produção (pátio, setor inicial), providenciar a cobertura externa do veículo também.</li>
+                    <li><strong>Porquê:</strong> Demonstrar cuidado com o patrimônio do cliente e evitar danos durante o manuseio interno. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.2.4. Comercialização Consultiva Adicional (Pós Check-list):</h4>
+                <ul>
+                    <li><strong>Apresentação do Portfólio:</strong> A partir das necessidades e avarias constatadas no check-list de entrada, garantir que o consumidor tenha conhecimento de todo o portfólio de produtos e serviços ofertados pela empresa.</li>
+                    <li><strong>Oferta Direcionada:</strong> Colocar os serviços à sua disposição, evidenciando e priorizando aqueles que atendam às necessidades identificadas no check-list, promovendo uma venda consultiva.</li>
+                    <li><strong>Porquê:</strong> Maximizar o faturamento e a satisfação do cliente, oferecendo soluções completas. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.2.5. Gerenciamento de Vistorias de Seguro:</h4>
+                <ul>
+                    <li><strong>Ações para Vistoria Exclusiva:</strong> Caso o cliente com demanda de seguro venha somente para realizar a vistoria, seguir o procedimento específico da empresa para vistoria inicial.</li>
+                    <li><strong>Atuação Direta ou Acionamento:</strong> Se o procedimento da empresa permitir, o Consultor Técnico pode realizar a vistoria. Caso contrário, acionar imediatamente o orçamentista de seguros da oficina para que ele realize a vistoria do veículo, enquanto o Consultor Técnico foca no processo de cadastro do cliente e do veículo.</li>
+                    <li><strong>Porquê:</strong> Agilizar o processo de vistoria e otimizar o tempo do cliente e dos profissionais. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.2.6. Repescagem de Orçamentos Não Aprovados:</h4>
+                <ul>
+                    <li><strong>Envio Imediato:</strong> Caso o cliente não aprove o orçamento inicialmente, enviar este processo imediatamente para o setor de repescagem ou responsável pela renegociação.</li>
+                    <li><strong>Porquê:</strong> Não perder a oportunidade de recuperar o cliente e o serviço. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pop-page" id="pop-page-5">
+            <div class="pop-content-card">
+                <h2>6.3. FASE 3: GESTÃO DA COMUNICAÇÃO E ACOMPANHAMENTO DO SERVIÇO</h2>
+
+                <h4>6.3.1. Dados do Corretor de Seguros:</h4>
+                <ul>
+                    <li><strong>Questionamento Padrão:</strong> Em todo cadastro de cliente (seja demanda particular ou seguro), perguntar se ele possui corretor de seguros.</li>
+                    <li><strong>Coleta de Contato:</strong> Se possuir, perguntar o nome e telefone de contato do corretor.</li>
+                    <li><strong>Porquê:</strong> Permitir que a empresa realize futuras ações comerciais e fortaleça o relacionamento com o canal de corretores. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.3.2. Centralização da Comunicação e Responsabilidade:</h4>
+                <ul>
+                    <li><strong>Ponto Único de Contato:</strong> A partir da entrada do veículo em serviço (seja por demanda particular ou seguro), a responsabilidade de manter o cliente e o corretor informados sobre o andamento do veículo, cumprimento dos prazos, a situação do processo junto à seguradora, situação das peças e/ou qualquer outra informação referente ao veículo é de total responsabilidade do Consultor Técnico.</li>
+                    <li><strong>Porquê:</strong> Evitar informações desencontradas e garantir a clareza para o cliente e parceiros. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.3.3. Gestão Proativa da Expectativa do Cliente:</h4>
+                <ul>
+                    <li><strong>Explicação Detalhada do Fluxo:</strong> Quando o cliente deixar o veículo na oficina, explicar de forma detalhada como ele será posicionado sobre o andamento do veículo (ex: "Você receberá mensagens diárias/semanais com o status do reparo").</li>
+                    <li><strong>Porquê:</strong> Diminuir a incidência de ligações do cliente à oficina para saber o status do carro, liberando o atendimento para novas demandas e focando na satisfação. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.3.4. Alinhamento Diário com a Produção:</h4>
+                <ul>
+                    <li><strong>Reunião Matinal com Supervisor:</strong> Participar de uma reunião matinal diária com o Supervisor de Produção para repassar o status de todos os carros em serviço, focando nos que têm prazo de entrega nos próximos 10 dias (no mínimo).</li>
+                    <li><strong>Porquê:</strong> Garantir a qualidade da informação e permitir que o Consultor atualize a situação dos veículos no sistema diariamente. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.3.5. Agendamento e Programação de Entradas:</h4>
+                <ul>
+                    <li><strong>Programação em Conjunto:</strong> Após a conferência e atualização dos veículos em serviço (junto ao Supervisor de Produção), programar todos os veículos autorizados que estão "rodando" (com cliente) e que já possuem peças disponíveis para agendamento de entrada na oficina.</li>
+                    <li><strong>Organização da Agenda:</strong> A partir desta relação, organizar as datas de agendamento para a vinda destes veículos em conjunto com o Supervisor de Produção.</li>
+                    <li><strong>Distribuição Equilibrada:</strong> É fundamental que o agendamento de entrada seja distribuído proporcionalmente entre todos os dias da semana.</li>
+                    <li><strong>Evitar Segundas-Feiras (Seguradoras):</strong> Para oficinas com credenciamento em seguradoras, é uma boa prática não realizar agendamentos de entrada para as segundas-feiras, pois a chegada de veículos não agendados neste dia é comum e pode afetar o atendimento e as oportunidades de venda.</li>
+                    <li><strong>Entrada Efetiva:</strong> Ter em mente (junto ao Supervisor de Produção) que só se deve agendar a entrada de um veículo para o dia em que ele poderá entrar efetivamente em serviço.</li>
+                    <li><strong>Porquê:</strong> Otimizar o fluxo de trabalho e evitar congestionamento. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.3.6. Confirmação de Agendamentos (Clientes):</h4>
+                <ul>
+                    <li><strong>Mensagem Prévia:</strong> Para mitigar o problema de clientes não comparecerem aos agendamentos, enviar uma mensagem de confirmação (via WhatsApp ou sistema de comunicação) um dia antes da data agendada para a vinda do cliente.</li>
+                    <li><strong>Lembrete Final:</strong> Enviar novamente uma mensagem 1 hora antes da hora marcada no dia do agendamento.</li>
+                    <li><strong>Porquê:</strong> Reduzir o número de "no-shows" e otimizar a agenda da oficina. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.3.7. Comunicação Diária de Status (Automática/Manual):</h4>
+                <ul>
+                    <li><strong>Envio de Mensagem:</strong> Após a situação dos veículos ser atualizada no sistema, enviar uma mensagem sobre o status desses veículos ao cliente e, de preferência, também aos seus corretores.</li>
+                    <li><strong>Porquê:</strong> Manter todos os envolvidos informados proativamente. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.3.8. Reforço de Vendas Agregadas (Momento Estratégico):</h4>
+                <ul>
+                    <li><strong>Oportunidade de Liberação:</strong> Em demandas de seguro, aproveitar o ato de comunicar ao consumidor a liberação dos reparos em seu veículo para reforçar a oferta de serviços agregados evidenciados anteriormente.</li>
+                    <li><strong>Porquê:</strong> Este é um momento muito positivo para o cliente (recebendo uma "boa notícia") e pode motivá-lo a realizar demais serviços em seu automóvel. É o momento propício para retomar as negociações de venda agregada.</li>
+                    <li><strong>Última Tentativa:</strong> Se o cliente mantiver a negativa, fazer uma última tentativa de venda agregada quando for informar que o veículo está entrando no setor de preparação.</li>
+                    <li><strong>Porquê:</strong> Garantir que todas as oportunidades de venda sejam exploradas. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pop-page" id="pop-page-6">
+            <div class="pop-content-card">
+                <h2>6.4. FASE 4: ENTREGA TÉCNICA E GESTÃO DO PÁTIO</h2>
+
+                <h4>6.4.1. Verificação Final para Entrega:</h4>
+                <ul>
+                    <li><strong>Garantia de Condição:</strong> Garantir que o veículo está nas devidas condições para ser entregue ao cliente.</li>
+                    <li><strong>Revisão do Checklist:</strong> A última revisão do checklist de entrega deve ser feita pelo Consultor Técnico.</li>
+                    <li><strong>Porquê:</strong> É o Consultor Técnico quem realizará a entrega técnica, e a revisão final garante que tudo esteja perfeito. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.4.2. Execução da Entrega Técnica (Cerimonial da Qualidade):</h4>
+                <ul>
+                    <li><strong>Remoção de Proteções:</strong> Remover as proteções de volante, bancos e capa protetora do veículo de preferência na frente do cliente.</li>
+                    <li><strong>Porquê:</strong> Transmite a percepção de cuidado extremo que a oficina teve com o automóvel.</li>
+                    <li><strong>Revisão do Serviço:</strong> Repassar a qualidade da pintura e o aspecto do trabalho junto ao consumidor de forma breve e rápida. Fazer com que o cliente perceba o quanto o trabalho ficou excelente.</li>
+                    <li><strong>Reforço da Garantia:</strong> Deixar o cliente totalmente seguro e tranquilo de que, havendo qualquer inconformidade, ele está totalmente coberto pela garantia da oficina, e que, ao escolher a empresa, ele fez a melhor opção e está amparado.</li>
+                    <li><strong>Porquê:</strong> Esta percepção de segurança é de responsabilidade do Consultor Técnico na hora de realizar a Entrega Técnica. Consolida a confiança e fideliza o cliente. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                </ul>
+
+                <h4>6.4.3. Gestão de Veículos de Guincho (Manutenção de Pátio):</h4>
+                <ul>
+                    <li><strong>Cadastro e Atualização:</strong> Realizar e atualizar o cadastro dos veículos e dos clientes que tenham chegado de guincho na oficina sem a presença física do cliente.</li>
+                    <li><strong>Localização e Contato:</strong> Localizar o proprietário e realizar contato para identificar se o sinistro é de seguro ou particular.</li>
+                    <li><strong>Encaminhamento (Seguro):</strong> Se for seguro, identificar a seguradora junto ao cliente e encaminhar a demanda ao orçamentista de seguros.</li>
+                    <li><strong>Seguimento (Particular):</strong> Se for particular, dar seguimento à composição do orçamento, como se fosse um cliente presencial.</li>
+                    <li><strong>Porquê:</strong> Assegurar que nenhum veículo recebido, mesmo na ausência do proprietário, fique sem os devidos trâmites e acompanhamento. Referência: POP 09 Consultor Tec. v04.docx, Manutenção de pátio</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pop-page" id="pop-page-7">
+            <div class="pop-content-card">
+                <h2>7. NORMAS DE SEGURANÇA E SAÚDE NO TRABALHO (SST)</h2>
+                <p>A segurança é um pilar da atuação do Consultor Técnico, que deve ser um modelo e um fiscalizador ativo das normas de SST, protegendo a si e a todos no ambiente da oficina.</p>
+
+                <h3>7.1. Uso e Fiscalização de EPIs:</h3>
+                <ul>
+                    <li><strong>Pessoal:</strong> Utilizar sempre os EPIs necessários para suas atividades (ex: calçado de segurança, óculos de proteção e luvas ao realizar o check-list ou manusear veículos, máscaras descartáveis em ambientes com odores ou poeira).</li>
+                    <li><strong>Cuidado com Terceiros:</strong> Zelar para que clientes e visitantes em áreas restritas usem os EPIs adequados (ex: capacetes, óculos) quando fornecidos e exigidos.</li>
+                </ul>
+
+                <h3>7.2. Procedimentos Específicos para Veículos:</h3>
+                <ul>
+                    <li><strong>Veículos Híbridos/Elétricos:</strong> Seguir rigorosamente o POP específico para desligamento e descarga das baterias de alta voltagem antes de qualquer intervenção ou manuseio que possa envolver risco elétrico.</li>
+                    <li><strong>Porquê:</strong> Proteger-se e proteger a equipe de choques elétricos. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Carga Auxiliar:</strong> Assegurar que os procedimentos para carros com sensores sejam verificados e seguidos antes de dar carga auxiliar na bateria.</li>
+                    <li><strong>Porquê:</strong> Evitar danos aos sistemas eletrônicos dos veículos. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Movimentação de Veículos:</strong> Redobrar a atenção na área de pátio e recepção, garantindo que as manobras sejam feitas com segurança e que clientes e visitantes estejam em áreas seguras.</li>
+                </ul>
+
+                <h3>7.3. Ambiente Seguro:</h3>
+                <ul>
+                    <li><strong>Organização e Limpeza:</strong> Manter sua área de trabalho e a recepção sempre organizadas e limpas para prevenir acidentes (quedas, tropeços).</li>
+                    <li><strong>Comunicação de Riscos:</strong> Reportar imediatamente à Gerência ou ao Supervisor de Produção quaisquer condições de risco ou situações de insegurança identificadas no ambiente.</li>
+                </ul>
+
+                <h2>8. COMUNICAÇÃO EFETIVA</h2>
+                <h3>8.1. Clareza e Precisão:</h3>
+                <ul>
+                    <li>Fornecer informações claras, objetivas e precisas aos clientes e equipes internas, evitando jargões técnicos excessivos e garantindo a compreensão.</li>
+                    <li><strong>Escuta Ativa:</strong> Ouvir atentamente as demandas, preocupações e feedbacks dos clientes, demonstrando empatia e profissionalismo.</li>
+                    <li><strong>Proatividade:</strong> Antecipar-se às dúvidas dos clientes, oferecendo informações antes mesmo que sejam solicitadas.</li>
+                    <li><strong>Centralização:</strong> Manter a comunicação do andamento dos serviços centralizada na figura do Consultor Técnico, evitando que o cliente precise contatar múltiplos setores. Referência: POP 09 Consultor Tec. v04.docx, Metodologias</li>
+                    <li><strong>Registros:</strong> Documentar todas as interações relevantes com o cliente no sistema para garantir o histórico e a rastreabilidade.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pop-page" id="pop-page-8">
+            <div class="pop-content-card">
+                <h2>9. GESTÃO DE NÃO CONFORMIDADES E MELHORIA CONTÍNUA</h2>
+                <h3>9.1. Registro de Feedback do Cliente:</h3>
+                <ul>
+                    <li>Registrar sistematicamente o feedback do cliente, tanto positivo quanto negativo, em ferramenta específica.</li>
+                    <li><strong>Análise de Retornos por Serviço Mal Feito:</strong> Colaborar com o Supervisor de Produção na análise da causa raiz de veículos que retornam à oficina, especialmente se a falha estiver relacionada à comunicação inicial, registro da demanda ou entrega técnica.</li>
+                    <li><strong>Proposição de Melhorias:</strong> Sugerir ajustes em POPs de atendimento, formulários ou sistemas para otimizar a experiência do cliente e evitar futuras não conformidades.</li>
+                </ul>
+
+                <h2>10. PROCEDIMENTOS DE EMERGÊNCIA (PAPEL DO CONSULTOR TÉCNICO)</h2>
+                <p>Em caso de emergência (incêndio, acidente grave, vazamento químico, mal súbito de cliente/colaborador):</p>
+                <h3>10.1. Primeiras Ações:</h3>
+                <ul>
+                    <li>Manter a calma, avaliar a situação, garantir a segurança de clientes na recepção.</li>
+                </ul>
+                <h3>10.2. Acionamento:</h3>
+                <ul>
+                    <li>Acionar imediatamente o Supervisor de Produção e/ou Gerência, e, se necessário, os serviços de emergência externos (Bombeiros, SAMU).</li>
+                </ul>
+                <h3>10.3. Evacuação:</h3>
+                <ul>
+                    <li>Orientar clientes e visitantes para o ponto de encontro seguro, conforme o plano de emergência da oficina, sem causar pânico.</li>
+                </ul>
+                <h3>10.4. Primeiros Socorros:</h3>
+                <ul>
+                    <li>Prestar os primeiros socorros (se capacitado) a clientes ou colegas até a chegada da ajuda especializada.</li>
+                </ul>
+
+                <h2>11. REGISTROS E DOCUMENTAÇÃO</h2>
+                <p>Todos os registros devem ser mantidos e organizados no sistema de gestão da oficina ou em pastas físicas designadas.</p>
+                <ul>
+                    <li>Cadastros de Clientes e Veículos.</li>
+                    <li>Orçamentos (rascunhos e impressos/digitais).</li>
+                    <li>Checklists de Entrada e Entrega (com assinaturas/aprovações).</li>
+                    <li>Histórico de Comunicações com Clientes (e-mails, mensagens, anotações de ligação).</li>
+                    <li>Relatos de Acidentes (para demandas de seguro).</li>
+                    <li>Registros de Feedback do Cliente e de Qualidade do Atendimento.</li>
+                </ul>
+
+                <h2>12. DOCUMENTOS RELACIONADOS E DE CONSULTA OBRIGATÓRIA</h2>
+                <ul>
+                    <li>Regimento Interno da Empresa.</li>
+                    <li>Contrato de Trabalho do(a) Consultor(a) Técnico(a).</li>
+                    <li>Ordem de Serviço da Função – Consultor(a) Técnico(a).</li>
+                    <li>Política de Remuneração Variável por Desempenho e Premiação.</li>
+                    <li>POPs de processos específicos (Ex: POP de Desmontagem – para compreensão do processo interno, POP de Vistoria Inicial).</li>
+                    <li>Manual de Boas Práticas de Atendimento e Vendas.</li>
+                    <li>Manuais de Operação do Sistema de Gestão da Oficina.</li>
+                    <li>Fichas de Informações de Segurança de Produtos Químicos (FISPQ) – para conhecimento dos riscos no ambiente.</li>
+                    <li>Plano de Emergência da Oficina.</li>
+                </ul>
+
+                <h2>COMPROMISSO DO(A) CONSULTOR(A) TÉCNICO(A)</h2>
+                <p>Eu, [NOME COMPLETO DO(A) CONSULTOR(A) TÉCNICO(A)], Consultor(a) Técnico(a), declaro ter lido, compreendido e me comprometo a aplicar integralmente este Procedimento Operacional Padrão (POP) e todos os documentos a ele relacionados. Reconheço que a excelência na minha atuação é fundamental para o sucesso da oficina e a satisfação dos nossos clientes.</p>
+                <p>Assinatura do(a) Consultor(a) Técnico(a): __________________________________ Data: __________________________</p>
+                <p>Ciente e De Acordo (Gerência): __________________________________ Data: __________________________</p>
+            </div>
+        </div>
+        <!-- End POP Pages -->
+
+        <div class="pop-navigation-bar">
+            <button id="prev-pop-page" disabled>Página Anterior</button>
+            <span id="pop-page-indicator">1 / 8</span>
+            <button id="next-pop-page">Próxima Página</button>
+        </div>
+        <button id="pop-return-button" class="pop-return-button">Voltar ao Fluxograma</button>
+
+    </div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXNM4mPkpY0fcX1rJxB22Fag0zSFlJsM8",
+            authDomain: "calculadoraautoprime-81551.firebaseapp.com",
+            projectId: "calculadoraautoprime-81551",
+            storageBucket: "calculadoraautoprime-81551.firebasestorage.app",
+            messagingSenderId: "745713515166",
+            appId: "1:745713515166:web:bfc2359c7ceed6dcdd998f",
+            measurementId: "G-407CDSRX48"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const loginForm = document.getElementById('login-form-container');
+        const mainContent = document.getElementById('main-content');
+        const popContainer = document.getElementById('pop-container'); // Get the new POP container
+
+        const loginButton = document.getElementById('login-button');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('login-error-message');
+        const consultPopButton = document.getElementById('consult-pop-button'); // Get the "Consulte o POP" button
+        const popReturnButton = document.getElementById('pop-return-button'); // Get the "Voltar ao Fluxograma" button
+
+        const popPages = document.querySelectorAll('.pop-page');
+        const prevPopPageButton = document.getElementById('prev-pop-page');
+        const nextPopPageButton = document.getElementById('next-pop-page');
+        const popPageIndicator = document.getElementById('pop-page-indicator');
+        let currentPopPageIndex = 0;
+
+        // Function to update POP page display
+        function updatePopPageDisplay() {
+            popPages.forEach((page, index) => {
+                page.classList.toggle('active', index === currentPopPageIndex);
+            });
+            popPageIndicator.textContent = `${currentPopPageIndex + 1} / ${popPages.length}`;
+            prevPopPageButton.disabled = currentPopPageIndex === 0;
+            nextPopPageButton.disabled = currentPopPageIndex === popPages.length - 1;
+            
+            // CORREÇÃO AQUI: Rola a janela para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        }
+
+        // Initialize POP pages on load (though initially hidden, this sets up the state)
+        if (popPages.length > 0) {
+            updatePopPageDisplay();
+        }
+
+        loginButton.addEventListener('click', async function() {
+            const enteredUsername = usernameInput.value.trim();
+            const enteredPassword = passwordInput.value.trim();
+
+            errorMessage.textContent = "";
+
+            if (!enteredUsername || !enteredPassword) {
+                errorMessage.textContent = "Por favor, preencha todos os campos.";
+                return;
+            }
+
+            try {
+                // **ALTERAÇÃO AQUI**: Nomes de campos agora são 'usuario' e 'senha'
+                const q = query(collection(db, "LoginSenhaPOP"), where("usuario", "==", enteredUsername));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    errorMessage.textContent = "Usuário ou senha incorretos. Tente novamente.";
+                    return;
+                }
+
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+
+                // **ALTERAÇÃO AQUI**: A comparação também é feita com o campo 'senha' em minúsculas
+                if (enteredPassword === userData.senha) {
+                    loginForm.style.display = 'none';
+                    mainContent.style.display = 'flex'; // Show main flowchart content
+                    popContainer.style.display = 'none'; // Ensure POP container is hidden
+                } else {
+                    errorMessage.textContent = "Usuário ou senha incorretos. Tente novamente.";
+                }
+            } catch (error) {
+                console.error("Erro ao tentar fazer login: ", error);
+                errorMessage.textContent = "Ocorreu um erro. Por favor, tente novamente mais tarde.";
+            }
+
+            usernameInput.value = "";
+            passwordInput.value = "";
+            usernameInput.focus();
+        });
+
+        // Event listeners for login form
+        usernameInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                loginButton.click();
+            }
+        });
+        passwordInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                loginButton.click();
+            }
+        });
+
+        // Event listener for "Consulte o POP" button
+        consultPopButton.addEventListener('click', function() {
+            mainContent.style.display = 'none'; // Hide flowchart
+            popContainer.style.display = 'flex'; // Show POP content
+            currentPopPageIndex = 0; // Reset to first page
+            updatePopPageDisplay();
+        });
+
+        // Event listener for "Voltar ao Fluxograma" button
+        popReturnButton.addEventListener('click', function() {
+            popContainer.style.display = 'none'; // Hide POP content
+            mainContent.style.display = 'flex'; // Show flowchart
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top when returning to flowchart
+        });
+
+        // Event listeners for POP navigation
+        prevPopPageButton.addEventListener('click', function() {
+            if (currentPopPageIndex > 0) {
+                currentPopPageIndex--;
+                updatePopPageDisplay();
+            }
+        });
+
+        nextPopPageButton.addEventListener('click', function() {
+            if (currentPopPageIndex < popPages.length - 1) {
+                currentPopPageIndex++;
+                updatePopPageDisplay();
+            }
+        });
+    </script>
+</body>
+</html>
