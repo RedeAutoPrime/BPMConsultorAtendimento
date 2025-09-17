@@ -3,165 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluxograma Detalhado - Academia AutoPrime</title>
+    <title>Acesso - Academia AutoPrime</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #1a1413; /* Fundo quase preto da imagem */
-            color: #FFFFFF; /* Texto branco padrão */
+            background-color: #1a1413;
+            color: #FFFFFF;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
             width: 100%;
             max-width: 1200px;
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 30px; /* Mais espaço para o logo */
-        }
-
-        .logo {
-            max-width: 280px; /* Levemente maior */
-            height: auto;
-        }
-
-        h1 {
-            color: #e94f35; /* Laranja vibrante */
-            text-align: center;
-            font-size: 2.8em; /* Um pouco maior */
-            margin-bottom: 30px;
-            font-weight: 700;
-            text-transform: uppercase; /* Para imitar o estilo do site */
-        }
-
-        .flow-container {
-            display: flex;
+            display: none;
             flex-direction: column;
-            gap: 25px; /* Mais espaço entre as fases */
-            width: 100%;
-            background-color: #1a1413; /* Mantém o fundo escuro */
-            padding: 20px 0; /* Padding para o conteúdo interno, se necessário */
-        }
-
-        .stage {
-            background-color: #FFFFFF; /* Fundo branco para a caixa principal da fase */
-            border: 1px solid #333; /* Borda mais suave */
-            border-radius: 12px;
-            padding: 30px; /* Mais padding */
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
-            position: relative;
-        }
-
-        .stage-title {
-            background-color: #e94f35; /* Laranja vibrante */
-            color: #ffffff;
-            padding: 18px; /* Mais padding */
-            border-radius: 10px; /* Bordas mais arredondadas */
-            text-align: center;
-            font-size: 1.6em; /* Um pouco maior */
-            font-weight: 600;
-            margin: -50px auto 25px auto; /* Ajuste da margem para sobrepor a borda */
-            width: 70%; /* Largura ajustada */
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
-            text-transform: uppercase;
-        }
-
-        .steps-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 18px; /* Mais espaço entre os passos */
-        }
-
-        .step {
-            background-color: #282828; /* Fundo cinza escuro para os passos */
-            border-left: 5px solid #e94f35; /* Laranja vibrante para destaque */
-            padding: 18px; /* Mais padding */
-            border-radius: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            color: #FFFFFF; /* Texto branco para contraste no fundo escuro */
-        }
-
-        .step:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .step-header {
-            font-weight: bold;
-            color: #e94f35; /* Laranja vibrante para o cabeçalho do passo */
-            font-size: 1.2em;
-            margin-bottom: 8px; /* Mais espaço */
-        }
-
-        .sub-step-list {
-            list-style-type: disc;
-            margin: 10px 0 0 25px; /* Mais recuo */
-            padding: 0;
-            color: #CCCCCC; /* Cor de texto mais clara para sub-itens */
-        }
-
-        .sub-step {
-            margin-bottom: 10px;
-            font-size: 0.98em;
-            line-height: 1.5;
-            color: #CCCCCC; /* Cor de texto mais clara para sub-itens */
-        }
-        
-        .sub-step strong {
-            color: #FFFFFF; /* Branco para destaque dentro dos sub-itens */
-        }
-        
-        .nested-sub-step-list {
-            list-style-type: circle;
-            margin: 8px 0 0 20px;
-            color: #BBBBBB; /* Cor de texto ainda mais clara para nested-sub-itens */
-        }
-
-        .note {
-            background-color: #282828; /* Fundo cinza escuro para a nota */
-            border-left: 5px solid #e94f35; /* Laranja vibrante */
+            align-items: center;
             padding: 20px;
-            border-radius: 8px;
-            margin-top: 30px; /* Mais espaço */
-            color: #FFFFFF; /* Texto branco */
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
-        .note-title {
-            font-weight: bold;
-            color: #e94f35; /* Laranja vibrante */
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-        
-        .arrow {
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #282828;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
             text-align: center;
-            margin: 25px 0; /* Mais espaço para as setas */
-            font-size: 3.5em; /* Setas maiores */
-            color: #e94f35; /* Laranja para as setas */
-            text-shadow: 0 0 10px rgba(233, 79, 53, 0.5); /* Leve brilho nas setas */
         }
+
+        .login-logo {
+            max-width: 200px;
+            margin-bottom: 25px;
+        }
+
+        .login-container h2 {
+            color: #e94f35;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .login-input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 0.9em;
+        }
+
+        .login-input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background-color: #1a1413;
+            color: #FFFFFF;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #e94f35;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #c9402c;
+        }
+
+        #login-error-message {
+            color: #ff6347;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Estilos do fluxograma, mantidos e ajustados */
+        .logo-container { text-align: center; margin-bottom: 30px; }
+        .logo { max-width: 280px; height: auto; }
+        h1 { color: #e94f35; text-align: center; font-size: 2.8em; margin-bottom: 30px; font-weight: 700; text-transform: uppercase; }
+        .flow-container { display: flex; flex-direction: column; gap: 25px; width: 100%; background-color: #1a1413; padding: 20px 0; }
+        .stage { background-color: #FFFFFF; border: 1px solid #333; border-radius: 12px; padding: 30px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); position: relative; }
+        .stage-title { background-color: #e94f35; color: #ffffff; padding: 18px; border-radius: 10px; text-align: center; font-size: 1.6em; font-weight: 600; margin: -50px auto 25px auto; width: 70%; box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3); text-transform: uppercase; }
+        .steps-list { list-style-type: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px; }
+        .step { background-color: #282828; border-left: 5px solid #e94f35; padding: 18px; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; color: #FFFFFF; }
+        .step:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); }
+        .step-header { font-weight: bold; color: #e94f35; font-size: 1.2em; margin-bottom: 8px; }
+        .sub-step-list { list-style-type: none; margin: 10px 0 0 25px; padding: 0; color: #CCCCCC; }
+        .sub-step { margin-bottom: 10px; font-size: 0.98em; line-height: 1.5; color: #CCCCCC; }
+        .sub-step strong { color: #FFFFFF; }
+        .nested-sub-step-list { list-style-type: circle; margin: 8px 0 0 20px; color: #BBBBBB; }
+        .note { background-color: #282828; border-left: 5px solid #e94f35; padding: 20px; border-radius: 8px; margin-top: 30px; color: #FFFFFF; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); }
+        .note-title { font-weight: bold; color: #e94f35; margin-bottom: 10px; font-size: 1.2em; }
+        .arrow { text-align: center; margin: 25px 0; font-size: 3.5em; color: #e94f35; text-shadow: 0 0 10px rgba(233, 79, 53, 0.5); }
     </style>
 </head>
 <body>
+    <div class="login-container" id="login-form-container">
+        <div class="logo-container">
+            <img src="logo auto prime.png" alt="Logo Academia AutoPrime" class="login-logo">
+        </div>
+        <h2>BPM POP's AutoPrime Acesso Restrito</h2>
+        <div class="login-input-group">
+            <label for="username">Usuário</label>
+            <input type="text" id="username" name="username" placeholder="Digite seu usuário">
+        </div>
+        <div class="login-input-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" placeholder="Digite sua senha">
+        </div>
+        <button id="login-button" class="login-button">Entrar</button>
+        <p id="login-error-message"></p>
+    </div>
 
-    <div class="container">
+    <div class="container" id="main-content">
         <div class="logo-container">
             <img src="logo auto prime.png" alt="Logo Academia AutoPrime" class="logo">
         </div>
         <h1>Fluxograma de Implementação Detalhado do POP</h1>
         
         <div class="flow-container">
-
             <div class="stage">
                 <div class="stage-title">FASE 1: FUNDAÇÃO (Onde você começa)</div>
                 <ul class="steps-list">
@@ -191,19 +167,16 @@
                             <li class="sub-step"><strong>2.1. Organização do Posto de Trabalho.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Ensine a rotina diária (07:30 - 08:00). Balcão limpo e organizado. Computador/tablet ligado e sistema de gestão aberto. Revisão da agenda do dia.</li>
-                                    <li><strong>Por quê:</strong> Cria a disciplina fundamental e a base para o atendimento do dia.</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>2.2. Abordagem e Coleta de Dados.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Treine a saudação padrão. Explique a importância de identificar a demanda (seguro ou particular) para o fluxo correto. Pratique a coleta de documentos e o registro preliminar de forma ágil e cortês.</li>
-                                    <li><strong>Por quê:</strong> Aumenta a percepção de profissionalismo e agiliza o processo.</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>2.3. Criação do Rascunho da Demanda.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Ensine a criar um rascunho detalhado das necessidades do cliente. Use um formulário físico ou digital para não esquecer de nada. Destaque a importância do relato do acidente para demandas de seguro.</li>
-                                    <li><strong>Por quê:</strong> Evita erros na orçamentação e garante que todas as necessidades do cliente sejam atendidas.</li>
                                 </ul>
                             </li>
                         </ul>
@@ -212,7 +185,7 @@
             </div>
             
             <div class="arrow">↓</div>
-
+            
             <div class="stage">
                 <div class="stage-title">FASE 2: MÃO NA MASSA (As primeiras rotinas)</div>
                 <ul class="steps-list">
@@ -222,19 +195,16 @@
                             <li class="sub-step"><strong>3.1. Implementação do Check-list.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Forneça uma ferramenta para o check-list (tablet ou formulário físico). Treine o consultor a ser minucioso, registrando todas as avarias e o estado geral do veículo.</li>
-                                    <li><strong>Por quê:</strong> Este procedimento protege a oficina contra futuras reclamações e é a base para a venda de serviços agregados.</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>3.2. Preenchimento da Ordem de Serviço com Data.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Torne o campo "Data de Entrega Prevista" um requisito obrigatório na OS. Ensine o consultor a, junto com o supervisor de produção, definir uma data realista e comunicá-la ao cliente.</li>
-                                    <li><strong>Por quê:</strong> Acaba com a falta de data de entrega nas OS e força a comunicação com a produção, reduzindo a bagunça interna e as ligações de clientes.</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>3.3. Proteção e Preparação do Veículo.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Ensine a rotina de proteção do veículo (capas de banco, volante, câmbio, tapetes) imediatamente após o check-list.</li>
-                                    <li><strong>Por quê:</strong> Demonstra cuidado e profissionalismo com o bem do cliente.</li>
                                 </ul>
                             </li>
                         </ul>
@@ -245,19 +215,16 @@
                             <li class="sub-step"><strong>4.1. Centralização da Comunicação.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Deixe claro para os consultores que eles são o **ponto único de contato** do cliente e do corretor. Ninguém mais da oficina deve dar informações sobre o andamento do serviço.</li>
-                                    <li><strong>Por quê:</strong> Evita informações desencontradas e o excesso de ligações.</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>4.2. Gestão da Expectativa do Cliente.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Crie um roteiro. Oriente o consultor a dizer: "Você não precisa ligar, nós vamos te manter informado com mensagens periódicas sobre o status do seu carro."</li>
-                                    <li><strong>Por quê:</strong> Esta simples frase resolve o seu problema de "excesso de ligações de clientes".</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>4.3. Rotina de Alinhamento Diário.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Implemente a reunião matinal diária (POP 6.3.4) entre o consultor e o supervisor de produção. Definam um horário fixo. Discutam o status dos carros com prazo de entrega para os próximos 10 dias.</li>
-                                    <li><strong>Por quê:</strong> A falta de comunicação interna é a raiz do problema. Esta reunião garante que o consultor tenha as informações necessárias para a comunicação proativa com o cliente.</li>
                                 </ul>
                             </li>
                         </ul>
@@ -276,19 +243,16 @@
                             <li class="sub-step"><strong>5.1. Implementação da Digitalização.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Estabeleça um procedimento: "Todo orçamento particular deve ser digitalizado após a elaboração e anexado ao cadastro do cliente no sistema."</li>
-                                    <li><strong>Por quê:</strong> Resolve o problema de falta de organização dos orçamentos e facilita a "repescagem" no futuro.</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>5.2. Treinamento em Venda Consultiva.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Use o check-list de entrada para identificar oportunidades (ex: farol opaco, arranhões em outra peça). Treine o consultor a apresentar o "Cardápio de Serviços" e a fazer a oferta em dois momentos-chave: **durante o check-list e na liberação do seguro.**</li>
-                                    <li><strong>Por quê:</strong> Transforma o check-list de uma simples rotina em uma ferramenta de vendas, resolvendo seu problema de "pouca venda de serviços agregados".</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>5.3. Rotina de "Repescagem" de Orçamentos.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Crie um processo: Se o orçamento não for aprovado, ele deve ser imediatamente transferido para uma rotina de repescagem.</li>
-                                    <li><strong>Por quê:</strong> Garante que nenhuma oportunidade de venda seja perdida.</li>
                                 </ul>
                             </li>
                         </ul>
@@ -307,13 +271,11 @@
                             <li class="sub-step"><strong>6.1. Monitoramento Diário.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Verifique diariamente se o check-list está sendo usado e se a comunicação proativa está sendo enviada. Faça perguntas de acompanhamento aos consultores: "Qual a data de entrega deste carro? O cliente já foi informado?".</li>
-                                    <li><strong>Por quê:</strong> O monitoramento constante no início é o que garante que a nova rotina seja internalizada pela equipe.</li>
                                 </ul>
                             </li>
                             <li class="sub-step"><strong>6.2. Análise de Métricas.</strong>
                                 <ul class="nested-sub-step-list">
                                     <li><strong>O que fazer:</strong> Use os dados do seu sistema. Monitore o número de vendas agregadas, o número de ligações recebidas por cliente e o tempo médio de reparo.</li>
-                                    <li><strong>Por quê:</strong> Métricas mostram se as mudanças estão dando certo. É a prova de que o POP está funcionando.</li>
                                 </ul>
                             </li>
                         </ul>
@@ -325,9 +287,92 @@
                 <div class="note-title">Observação Importante:</div>
                 <p>Este fluxograma é um **mapa de prioridades**. Não tente implementar tudo de uma vez. Comece pelo topo, passo a passo. O sucesso do POP depende da disciplina de seguir a ordem e do comprometimento da sua equipe em transformar a rotina caótica em um processo de excelência.</p>
             </div>
-
         </div>
     </div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXNM4mPkpY0fcX1rJxB22Fag0zSFlJsM8",
+            authDomain: "calculadoraautoprime-81551.firebaseapp.com",
+            projectId: "calculadoraautoprime-81551",
+            storageBucket: "calculadoraautoprime-81551.firebasestorage.app",
+            messagingSenderId: "745713515166",
+            appId: "1:745713515166:web:bfc2359c7ceed6dcdd998f",
+            measurementId: "G-407CDSRX48"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const loginForm = document.getElementById('login-form-container');
+        const mainContent = document.getElementById('main-content');
+        const loginButton = document.getElementById('login-button');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('login-error-message');
+
+        loginButton.addEventListener('click', async function() {
+            const enteredUsernameStr = usernameInput.value.trim();
+            const enteredPasswordStr = passwordInput.value.trim();
+
+            errorMessage.textContent = "";
+
+            if (!enteredUsernameStr || !enteredPasswordStr) {
+                errorMessage.textContent = "Por favor, preencha todos os campos.";
+                return;
+            }
+            
+            const enteredUsername = parseInt(enteredUsernameStr);
+            const enteredPassword = parseInt(enteredPasswordStr);
+
+            if (isNaN(enteredUsername) || isNaN(enteredPassword)) {
+                errorMessage.textContent = "Usuário e senha devem ser números inteiros.";
+                return;
+            }
+
+            try {
+                const q = query(collection(db, "LoginSenhaPOP"), where("Usuário", "==", enteredUsername));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    errorMessage.textContent = "Usuário ou senha incorretos. Tente novamente.";
+                    return;
+                }
+
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+
+                if (enteredPassword === userData.Senha) {
+                    loginForm.style.display = 'none';
+                    mainContent.style.display = 'flex';
+                } else {
+                    errorMessage.textContent = "Usuário ou senha incorretos. Tente novamente.";
+                }
+            } catch (error) {
+                console.error("Erro ao tentar fazer login: ", error);
+                errorMessage.textContent = "Ocorreu um erro. Por favor, tente novamente mais tarde.";
+            }
+
+            usernameInput.value = "";
+            passwordInput.value = "";
+            usernameInput.focus();
+        });
+
+        usernameInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                loginButton.click();
+            }
+        });
+        passwordInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                loginButton.click();
+            }
+        });
+    </script>
 </body>
 </html>
