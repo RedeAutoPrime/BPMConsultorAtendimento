@@ -824,6 +824,9 @@
             popPageIndicator.textContent = `${currentPopPageIndex + 1} / ${popPages.length}`;
             prevPopPageButton.disabled = currentPopPageIndex === 0;
             nextPopPageButton.disabled = currentPopPageIndex === popPages.length - 1;
+            
+            // CORREÇÃO AQUI: Rola a janela para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
         }
 
         // Initialize POP pages on load (though initially hidden, this sets up the state)
@@ -899,6 +902,7 @@
         popReturnButton.addEventListener('click', function() {
             popContainer.style.display = 'none'; // Hide POP content
             mainContent.style.display = 'flex'; // Show flowchart
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top when returning to flowchart
         });
 
         // Event listeners for POP navigation
